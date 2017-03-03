@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'path';
 
 const directories = ['/foo', '/bar', 'baz/abc', 'qwerty', '..'];
 

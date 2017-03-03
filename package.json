@@ -24,6 +24,8 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0"
   },
   "devDependencies": {
+    "eslint": "^3.16.1",
+    "eslint-plugin-react": "^6.10.0",
     "nodemon": "^1.11.0"
   }
 }
