@@ -1,0 +1,31 @@
+{
+  "name": "whats-up",
+  "version": "1.0.0",
+  "description": "a whats app clone in react",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -Rf dist && babel src -d dist",
+    "babel-node": "babel-node",
+    "nodemon": "nodemon --exec npm run babel-node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NYCSwan/whats-up.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NYCSwan/whats-up/issues"
+  },
+  "homepage": "https://github.com/NYCSwan/whats-up#readme",
+  "dependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.16.1",
+    "eslint-plugin-react": "^6.10.0",
+    "nodemon": "^1.11.0"
+  }
+}
