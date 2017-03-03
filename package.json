@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -Rf dist && babel src -d dist",
+    "build-api": "rm -Rf dist/api && babel src/api -d dist/api",
     "babel-node": "babel-node",
     "nodemon": "nodemon --exec npm run babel-node",
     "eslint": "eslint",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build-api"
+
   },
   "repository": {
     "type": "git",
@@ -28,7 +29,9 @@
   "dependencies": {
     "babel-cli": "^6.23.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0",
-    "express": "^4.15.0"
+    "express": "^4.15.0",
+    "redis": "^2.6.5"
+
   },
   "devDependencies": {
     "eslint": "^3.16.1",
