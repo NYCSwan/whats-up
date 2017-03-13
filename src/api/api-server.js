@@ -20,6 +20,17 @@ app.get('/redis-test', (req, res) => {
 	});
 });
 
+app.get('/json-test', (req, res, next) => {
+	redisClient.incr('inc-json-test', (err, result) => {
+		if (err) {
+			next(err);
+		}
+		else {
+			res.json({ incResult: result });
+		}
+	})
+});
+
 setupRedis();
 
 app.listen(port, () => {
