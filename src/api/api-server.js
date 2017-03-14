@@ -1,7 +1,11 @@
 import express from 'express';
 import {setupRedis, redisClient} from './redis-client';
+import cors from 'cors'
 
 const app = express();
+app.use(cors()); //allows CORS; resources shared btwn diff domains for express
+console.log('cors allowed for all routes');
+
 const port = process.env.PORT || 4000;
 
 app.get('/', (req, res) => {

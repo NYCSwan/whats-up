@@ -2,6 +2,6 @@ import 'babel-polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Increment from './increment.react';
 
-
-ReactDOM.render(<h1>Hello Meg!</h1>, document.getElementById('root'));
+ReactDOM.render(< Increment />, document.getElementById('root'));
