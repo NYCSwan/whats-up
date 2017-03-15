@@ -9,8 +9,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-api": "rm -Rf dist/api && babel src/api -d dist/api",
-    "babel-node": "babel-node",
+    "build-api": "rm -Rf dist/api & babel --plugins transform-es2015-modules-commonjs src/api -d dist/api",
+    "babel-node": "babel-node --plugins transform-es2015-modules-commonjs",
     "nodemon": "nodemon --exec npm run babel-node",
     "postinstall": "npm run build-api",
     "build-spa": "rm -Rf dist/spa && gulp build-spa",
