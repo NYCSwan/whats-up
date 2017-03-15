@@ -21,10 +21,6 @@
     "type": "git",
     "url": "git+https://github.com/NYCSwan/whats-up.git"
   },
-  "engines": {
-    "node": "6.10.0",
-    "npm": "3.10.10"
-  },
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -34,9 +30,10 @@
   "dependencies": {
     "babel-cli": "^6.23.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0",
+    "cors": "^2.8.1",
     "express": "^4.15.0",
-    "redis": "^2.6.5"
-
+    "redis": "^2.6.5",
+    "url-join": "^1.1.0"
   },
   "devDependencies": {
     "babel-loader": "^6.4.0",
