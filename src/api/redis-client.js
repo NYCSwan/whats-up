@@ -19,4 +19,8 @@ function setup() {
 	});
 }
 
-export {setup as setupRedis, client as redisClient};
+const redisKeys = {
+	users: 'users|0'
+};
+
+export {setup as setupRedis, client as redisClient, redisKeys};

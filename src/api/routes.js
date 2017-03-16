@@ -2,9 +2,11 @@ import {redisClient, redisKeys} from './redis-client';
 import {UserValidator} from '../core/user-validator';
 import jwt from 'jsonwebtoken';
 
+const handleSecret = 'some-secret-shhh';
+
 function setup(app) {
 	app.get('/', (req, res) => {
-		res.send("Hey-o REACT. I got this!");
+		res.send('Hello! This is my Express page on port 4000.');
 	});
 
 	app.get('/redis-test', (req, res) => {
@@ -31,14 +33,14 @@ function setup(app) {
 	});
 
 	app.post('/user', (req, res, next) => {
-		console.log( 'user', req.body);
+		console.log('user', req.body);
 
 		const {handle, name} = req.body;
 
 		const user = {
 			handle,
 			name
-		}
+		};
 
 		redisClient.lrange(redisKeys.users, 0, -1, (err, result) => {
 			if (err) {
@@ -65,6 +67,7 @@ function setup(app) {
 							res.json({
 								token: `Bearer ${token}`
 							});
+
 							//res.send(`User saved to redis. Number of users: ${result}.`);
 						}
 					});
@@ -74,6 +77,7 @@ function setup(app) {
 	});
 
 	app.get('/users/:max', (req, res, next) => {
+
 		redisClient.lrange(redisKeys.users, 0, req.params.max, (err, result) => {
 			if (err) {
 				next(err);
