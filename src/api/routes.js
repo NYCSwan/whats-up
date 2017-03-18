@@ -2,7 +2,7 @@ import {redisClient, redisKeys} from './redis-client';
 import {UserValidator} from '../core/user-validator';
 import jwt from 'jsonwebtoken';
 
-const handleSecret = 'some-secret-shhh';
+const handleSecret = 'some-secret-shhh'; //need to change before 
 
 function setup(app) {
 	app.get('/', (req, res) => {
