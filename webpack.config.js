@@ -4,7 +4,6 @@ const path = require('path');
 
 module.exports = {
 	target: 'web',
-	debug: true,
 	devtool: 'source-map',
 	context: path.join(__dirname),
 	entry: {
@@ -24,7 +23,11 @@ module.exports = {
 				query: {
 					presets: ['es2015','react']
 				}
-			}
+			},
+			{
+		        test: /src(\/|\\).*\.scss$/,
+		        loaders: ["style", "css", "sass"]
+		    }
 		]
 	},
 	plugins: []
