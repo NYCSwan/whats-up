@@ -10,7 +10,7 @@ class MainContainer extends React.Component {
 
 	render() {
 		return (
-			<div class="main-container">
+			<div className="main-container">
 				<SetupProfile />
 			</div>
 
