@@ -34,50 +34,12 @@ class SetupProfile extends React.Component {
                 <RequestMessage
                     requestState={this.state.requestState}
                 />
-                
+                <RequestSubmitButton
+                    requestState={this.state.requestState}
+                    onSubmit={this._submitProfile}
+                />
 			</div>
 		)
-	}
-
-	_renderContents() {
-
-		switch (this.state.requestState) {
-			case requestStates.default:
-			case requestStates.fetching:
-
-				const isFetching = this.state.requestState === requestStates.fetching;
-
-				return (
-					<div>
-						<ProfileEditor
-							handle={this.state.handle}
-                            name={this.state.name}
-                            onHandleChange={this._handleHandleChange}
-                            onNameChange={this._handleNameChange}
-						/>
-						<SubmitButton 
-							text={isFetching ? 'Submitting ...' : 'Submit'}
-							enabled={!isFetching}
-                            onSubmit={this._submitProfile}
-                        />
-					</div>
-				);
-
-			case requestStates.success:
-				return (
-					<div className="prompt">
-                        <span>Your profile has been saved. Your handle name is {this.state.handle}.</span>
-                    </div>
-                );
-
-            case requestStates.hasError:
-                return (
-                    <div className="prompt">
-                        <span>There was an error. Please reload.</span>
-                    </div>
-                );
-			
-		}
 	}
 
     _handleHandleChange(event) {
