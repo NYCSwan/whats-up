@@ -25,7 +25,16 @@ class SetupProfile extends React.Component {
 
 		return (
 			<div className="setup-profile">
-				{this._renderContents()}
+				<ProfileEditor
+                    handle={this.state.handle}
+                    name={this.state.name}
+                    onHandleChange={this._handleHandleChange}
+                    onNameChange={this._handleNameChange}
+                />
+                <RequestMessage
+                    requestState={this.state.requestState}
+                />
+                
 			</div>
 		)
 	}
