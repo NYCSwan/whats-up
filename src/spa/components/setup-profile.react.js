@@ -1,8 +1,12 @@
 import React from 'react';
 import ProfileEditor from './profile-editor.react'
+import SubmitButton from './submit-button.react'
+
 import $ from 'jquery';
 import urlJoin from 'url-join';
+
 import setupProfile from './setup-profile.scss';
+import {requestStates} from '../../core/request-states';
 
 class SetupProfile extends React.Component {
 	constructor(props) {
@@ -42,13 +46,14 @@ class SetupProfile extends React.Component {
                             onHandleChange={this._handleHandleChange}
                             onNameChange={this._handleNameChange}
 						/>
-						<SubmitBotton 
-							text={isFetching ? 'Submitting ...' : 'Submit'
-							enabled={!isFetching} //
+						<SubmitButton 
+							text={isFetching ? 'Submitting ...' : 'Submit'}
+							enabled={!isFetching}
                             onSubmit={this._submitProfile}
                         />
 					</div>
 				);
+
 			case requestStates.success:
 				return (
 					<div className="prompt">
@@ -62,7 +67,7 @@ class SetupProfile extends React.Component {
                         <span>There was an error. Please reload.</span>
                     </div>
                 );
-				)
+			
 		}
 	}
 
