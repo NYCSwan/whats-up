@@ -43,7 +43,7 @@ class MainContainer extends React.Component {
 				return <Chats />;
 
 			default: 
-				throw new Error(`Unexpected main view ${this.state.mainView}`))
+				throw new Error(`Unexpected main view ${this.state.mainView}`)
 		}
 	}
 

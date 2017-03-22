@@ -5,7 +5,7 @@ function Modal ({isOpen, children}) {
 	if (isOpen) {
 		return (
 			<div className="modal-overlay" onClick={DefaultActions.closeModal}>
-                <div className="modal" onClick={e => e.stopPropagation()}>
+                <div className="modal" onClick={e => e.stopPropagation()}> 
                     {children}
                 </div>
             </div>

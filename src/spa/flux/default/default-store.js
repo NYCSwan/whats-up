@@ -7,7 +7,7 @@ import {defaultActionTypes} from "./default-action-types";
 
 clss DefaultStore extends BaseStore {
 	constructor() {
-		super('default-store-change');
+		super('default-store-change'); //where does default-store-change come from?
 		const modifier = new StateModifier(this.state);
 	}
 
