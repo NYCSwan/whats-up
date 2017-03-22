@@ -5,7 +5,7 @@ import {LocalCacheKeys} from '../../utils/local-cache-keys';
 import {defaultActionTypes} from "./default-action-types";
 
 
-clss DefaultStore extends BaseStore {
+class DefaultStore extends BaseStore {
 	constructor() {
 		super('default-store-change'); //where does default-store-change come from?
 		const modifier = new StateModifier(this.state);

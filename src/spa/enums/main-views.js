@@ -1,6 +1,6 @@
 import keyMirror from 'key-mirror';
 
-const mainViews({
+const mainViews = keyMirror({
 	setupProfile: null,
 	chats: null
 });
