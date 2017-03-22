@@ -11,13 +11,13 @@ gulp.task('build-spa', (callback) => {
 
 	const buildConfig = Object.create(webpackConfig);
 
-	buildConfig.debug = false;
 	buildConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({ sourceMap: true }));
 	buildConfig.plugins.push(new webpack.DefinePlugin({
 		'process.env': {
 			'NODE_ENV': '"production"'
 		}
 	}));
+	buildConfig.plugins.push(new webpack.LoaderOptionsPlugin({ debug: true }));
 
 	webpack(buildConfig, (err, stats) => {
 		if (err) {
