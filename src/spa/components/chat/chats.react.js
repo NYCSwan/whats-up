@@ -2,6 +2,8 @@ import React from 'react';
 import ChatsList from './chats-list';
 import ChatStore from '../../chats/chat-store';
 
+import chats from './chats.scss'
+
 class Chats extends React.Component {
 
 	constructor(props) {
@@ -30,7 +32,7 @@ class Chats extends React.Component {
                     <div className="placeholder">
                         <span>No contacts yet, click below to start adding contacts.</span>
                     </div>
-                    <h4>AddContactButton </h4>
+                    <h4>AddContactButton</h4>
                 </div>
             )
 		}
