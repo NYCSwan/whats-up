@@ -1,6 +1,9 @@
 import React from 'react';
-import ChatsList from './chats-list';
-import ChatStore from '../../chats/chat-store';
+import {chatStore} from '../../flux/chat/chat-store';
+
+import ChatsList from './chats-list.react';
+import ChatsHeader from './chats-header.react';
+import AddContactButton from './add-contact-button.react'
 
 import chats from './chats.scss'
 

@@ -1,8 +1,7 @@
 import keyMirror from 'key-mirror';
 
 const chatActionTypes = keyMirror({
-	// setChatView: null,
-	showAddContentModel: null
-})
+	showAddContentModal: null
+});
 
 export {chatActionTypes};

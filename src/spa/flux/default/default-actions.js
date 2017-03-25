@@ -1,15 +1,16 @@
 import {defaultActionTypes as defaultActionsTypes} from './default-action-types';
-import {mainViews} from '../../emums/main-views';
-import dispatcher from '../dispatcher';
+import {mainViews} from '../../enums/main-views';
+import {dispatcher} from '../dispatcher';
 import {modalKeys} from '../../enums/modal-keys';
 
 class DefaultActions {
 
-	static goToChatsView() {
+	static showChats() {
 		const action = {
 			type: defaultActionsTypes.setMainView,
 			data: {
 				view: mainViews.chats
+
 			}
 		};
 		dispatcher.dispatch(action);

@@ -12,7 +12,7 @@ class AddContact extends React.Component{
 		super();
 		this.state = {
 			handle: '',
-			requestState: requestStates.default;
+			requestState: requestStates.default
 		};
 		this._handleHandleChange = this._handleHandleChange.bind(this);
 		this._submit = this._submit.bind(this);
@@ -44,7 +44,7 @@ class AddContact extends React.Component{
 			handle: event.target.value
 		});
 
-		const request - new SecureAjaxRequest();
+		const request = new SecureAjaxRequest();
 		const contact = {
 			handle: this.state.handle
 		};

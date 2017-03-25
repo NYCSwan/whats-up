@@ -7,17 +7,19 @@ import {defaultActionTypes} from "./default-action-types";
 
 class DefaultStore extends BaseStore {
 	constructor() {
-		super('default-store-change'); //where does default-store-change come from?
-		const modifier = new StateModifier(this.state);
+		super('default-store-change'); //where does default-store-change come from? from the baseStore changeEvent
+		const modifier = new StateModifier(this.state); // actual sets the state in the new store
+		this.setup(modifier, ActionHandler.handleAction); //basestore fn
 	}
 
 }
 
+// helper method; doesn't have state 
 class ActionHandler {
 	static handleAction(action, modifier, emitChange) {
 		switch (action.type) {
 			case defaultActionTypes.setMainView:
-				modifier.setMainView(action.data.view);
+				modifier.setMainView(action.data.view, action.data.initialData);
 				emitChange();
 				break;
 
@@ -37,24 +39,26 @@ class ActionHandler {
 	}
 }
 
+// helper method
 class StateModifier {
 	constructor(state) {
-		this._state = state; // why no super?
+		this._state = state; // why no super? cuz it's a helper method..
 		this.initializeState();
+		
 	}
 
 	initializeState() {
 		this._state.mainView = this._getInitialMainView();
+		this._state.mainViewInitialData = null;
 		this._state.modalkey = null;
+		this._state.user = LocalCache.getObject(LocalCacheKeys.user());
 	}
 
 	_getInitialMainView() {
 		const token = LocalCache.getString(LocalCacheKeys.authToken());
-		const user = LocalCache.getObject(LocalCacheKeys.user());
 
 		if(token) {
 			console.log('token exists');
-            console.log('user', user);
             return mainViews.chats;
         }
         else {
@@ -63,12 +67,14 @@ class StateModifier {
 		}
 	}
 
-	setMainView(view) {
-		this.set.mainView = view;
+	setMainView(view, initialData) {
+		this._state.mainView = view;
+		this._state.mainViewInitialData = initialData;
+
 	}
 
 	setModalKey(key) {
-		this.set.modalKey = key;
+		this._state.modalKey = key;
 	}
 
 	closeModal() {
@@ -76,6 +82,6 @@ class StateModifier {
 	}
 }
 
-const defaultStore = new DefaultStore(); //why at bottom?
+const defaultStore = new DefaultStore(); //why at bottom? 
 
-export {defaultStore}
+export {defaultStore} // exposes the helper meths too

@@ -30,7 +30,7 @@ class AjaxRequest {
 				method: 'POST',
 				beforeSend: this._setHeaders,
 				dataType: 'json',
-				contentType: 'application/json'
+				contentType: 'application/json',
 				jsonp: false,
 				data: JSON.stringify(requestData),
 				success,
