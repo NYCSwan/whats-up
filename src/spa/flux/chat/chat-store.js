@@ -23,7 +23,12 @@ class ActionHandler {
 
 			case chatActionTypes.processFact:
 				return (
-					)
+					modifier.processFact(action.data.fact);
+					modifier.postProcessFact(action.data.fact);
+					modifier.saveFact(action.data.fact);
+					emitChange();
+					break;
+					
 			default:
 				break;
 		}
@@ -39,6 +44,81 @@ class StateModifier {
 
 	initializeState() {
 		this._state.chats = [];
+		this._state.messageMap = new Map();
+		this.replayFacts();
+	}
+
+	saveFact(fact) {
+		const facts = this.getLocalFacts();
+		facts.push(fact);
+		LocalCache.setObject(LocalCacheKeys.facts() || []);
+	}
+
+	_getLocalFacts() {
+		return LocalCache.getObject(LocalCacheKeys.facts()) || [];
+	}
+
+	replayFacts() {
+		const facts = this._getLocalFacts();
+		console.log('facts:', facts);
+
+		for(let fact of facts) {
+			this.processFact(fact);
+		}
+	}
+
+	processFact(fact) {
+		let handle = null;
+		let messages = null;
+		let message = null;
+
+		switch (fact.type) {
+
+			case 'added-as-contact':
+				handle: this._getHandle(fact);
+
+				this._state.chats.push({
+					handle
+				});
+				this._state.messageMap.set(handle, []);
+				break;
+
+			case 'message-sent':
+
+                handle = this._getHandle(fact);
+
+                messages = this._state.messageMap.get(handle);
+                message = fact.data;
+                message.receivedByServer = false;
+                message.acknowledged = false;
+                messages.push(message);
+
+                break;
+
+            case 'message-received-by-server':
+
+                handle = fact.data.receiver;
+                messages = this._state.messageMap.get(handle);
+                message = messages.find((msg) => msg.messageId === fact.data.messageId);
+
+                if (message) {
+                    message.receivedByServer = true;
+                }
+
+                break;
+
+            case 'ack-sent':
+
+                handle = fact.data.sender;
+                messages = this._state.messageMap.get(handle);
+                message = messages.find((msg) => msg.messageId === fact.data.messageId);
+
+                if (message) {
+                    message.acknowledged = true;
+                }
+
+                break;
+		}
 	}
 }
 
