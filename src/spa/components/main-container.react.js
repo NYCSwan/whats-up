@@ -16,7 +16,6 @@ class MainContainer extends React.Component {
 		super();
 		this.state = this._getState();
 		this._handleStoreChange = this._handleStoreChange.bind(this);
-	console.log(this.state)
 	}
 
 	_getState() {
@@ -43,6 +42,9 @@ class MainContainer extends React.Component {
 
 			case mainViews.chats:
 				return <Chats />;
+
+			case mainViews.chat:
+                return <Chat handle={this.state.mainViewInitialData.handle}/>;
 
 			default: 
 				throw new Error(`Unexpected main view ${this.state.mainView}`)

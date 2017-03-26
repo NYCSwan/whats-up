@@ -18,7 +18,7 @@ class BaseStore extends EventEmitter {
 		for(let key of Object.keys(this._state)) {
 			Object.defineProperty(this, key, { 
 				get(){  								//dynamically adding getters to each object.
-				return this._state(key);
+				return this._state[key];
 				}
 			});
 		}

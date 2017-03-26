@@ -49,6 +49,39 @@ class AddContact extends React.Component{
 			handle: this.state.handle
 		};
 
-		
+	_submit() {
+		this.setState({
+			requestState: requestStates.fetching
+		})
+		const request = new SecureAjaxRequest();
+		const contact = {
+			handle: this.state.handle
+		};
+
+		request.post({
+			url: ApiUrls.contact(),
+			data: contact,
+			success: (res) => {
+				LocalCache.setString(LocalCacheKeys.authToken(), res.token)
+				LocalCache.setObject(LocalCacheKeys.contact(), contact)
+
+				this.setState({
+					requestState: requestStates.success
+				});
+
+                DefaultActions.closeModal();
+                ChatActions.processFact(res);
+            },
+            
+            error: (err) => {
+                console.log(err);
+                this.setState({
+                    requestState: requestStates.hasError
+                });
+			}
+		})
+	}
 	}
 }
+
+export default AddContact;

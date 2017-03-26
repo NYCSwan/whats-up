@@ -1,11 +1,12 @@
 import React from 'react';
-import ProfileEditor from './profile-editor.react'
-import SubmitButton from '../common/submit-button.react'
+import ProfileEditor from './profile-editor.react';
+import RequestSubmitButton from '../common/request-submit-button.react';
 
 import $ from 'jquery';
 
 import setupProfile from './setup-profile.scss';
 
+import RequestMessage from '../common/request-message.react'
 import {requestStates} from '../../../core/request-states';
 import {StandardAjaxRequest} from '../../utils/ajax-request';
 import {ApiUrls} from '../../utils/api-urls';
@@ -92,7 +93,7 @@ class SetupProfile extends React.Component {
                     requestState: requestStates.hasError
                 });
             }
-        })
+        });
     }
 }
 

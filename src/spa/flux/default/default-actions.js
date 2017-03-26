@@ -15,8 +15,19 @@ class DefaultActions {
 		};
 		dispatcher.dispatch(action);
 	}
+	
+	static proccessProfile(user, token) {
+		const action = {
+			type: defaultActionsTypes.proccessProfile,
+			data: {
+				user,
+				token
+			}
+		};
+		dispatcher.dispatch(action);
+	}	
 
-	static openAddContactModal(){
+	static openAddContactModal() {
 		const action = {
 			type: defaultActionsTypes.setModalKey,
 			data: {

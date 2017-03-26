@@ -21,6 +21,9 @@ class ActionHandler {
 	static handleAction(action, modiier, emitChange) {
 		switch (action.type) {
 
+			case chatActionTypes.processFact:
+				return (
+					)
 			default:
 				break;
 		}
