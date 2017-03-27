@@ -23,12 +23,12 @@ class ActionHandler {
 
 			case chatActionTypes.processFact:
 				return (
-					modifier.processFact(action.data.fact);
-					modifier.postProcessFact(action.data.fact);
-					modifier.saveFact(action.data.fact);
-					emitChange();
+					modifier.processFact(action.data.fact),
+					modifier.postProcessFact(action.data.fact),
+					modifier.saveFact(action.data.fact),
+					emitChange(),
 					break;
-					
+				);
 			default:
 				break;
 		}
@@ -119,6 +119,48 @@ class StateModifier {
 
                 break;
 		}
+	}
+
+	processAfterLoadFact() {
+		switch (fact.type) {
+			case 'message-sent':
+				if(!this._iAmSender(fact.data.sender)) {
+					this_submitAck(fact.data);
+				}
+				break;
+
+			default:
+				break;
+		}
+	}]
+	_iAmSender(handle) {
+		return handle === defaultStore.user.handle;
+	}
+
+	_submitAck(fact) {
+		const request = new SecureAjaxRequest();
+
+		const data = {
+			receiver: message.sender,
+			messageId: message.messageId
+		};
+
+		global.setTimeout(() => {
+			request.post({
+				url: ApiUrls.acknowledge(),
+				data,
+				success: (res) => {
+					console.log(res);
+				},
+				error: (err) => {
+					console.log(err);
+				}
+			});
+		}, 3000);
+	}
+
+	_getHandle(fact) {
+		if(this._iAmSender(fact.))
 	}
 }
 
