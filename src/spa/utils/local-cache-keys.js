@@ -8,7 +8,7 @@ class LocalCacheKeys {
 		return 'user|v2';
 	}
 
-	static fact() {
+	static facts() {
 		return 'fact|v0';
 	}
 }

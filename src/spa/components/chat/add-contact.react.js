@@ -48,7 +48,8 @@ class AddContact extends React.Component{
 		const contact = {
 			handle: this.state.handle
 		};
-
+	}
+	
 	_submit() {
 		this.setState({
 			requestState: requestStates.fetching
