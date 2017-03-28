@@ -67,7 +67,7 @@ class SetupProfile extends React.Component {
             handle: this.state.handle,
             name: this.state.name
         };
-        console.log('ApiUrls: ', ApiUrls.user());
+        // console.log('ApiUrls: ', ApiUrls.user());
 
         request.post({
             url: ApiUrls.user(),
@@ -76,10 +76,10 @@ class SetupProfile extends React.Component {
                 this.setState({
                     requestState: requestStates.success
                 });
-                console.log(res.token);
+                console.log('user', user);
                 global.setTimeout(() => {
                     DefaultActions.processProfile(user, res.token)
-                }, 750);
+                });
             },
 
             error: (err) => {

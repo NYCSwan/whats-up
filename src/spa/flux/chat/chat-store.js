@@ -32,7 +32,7 @@ class ActionHandler {
 
 			case chatActionTypes.processFact:
 				modifier.processFact(action.data.fact);
-				modifier.postProcessFact(action.data.fact);
+				modifier.processFactAfterLoad(action.data.fact);
 				modifier.saveFact(action.data.fact);
 				emitChange();
 				break;
