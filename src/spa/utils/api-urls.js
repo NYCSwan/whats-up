@@ -1,6 +1,7 @@
 import urlJoin from 'url-join';
 
 const apiUrl = global.__apiUrl__;
+// concating apiurls for each extention
 
 class ApiUrls {
 	static user() {
@@ -21,3 +22,4 @@ class ApiUrls {
 }
 
 export {ApiUrls}
+

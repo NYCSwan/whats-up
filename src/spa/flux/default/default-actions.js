@@ -18,8 +18,12 @@ class DefaultActions {
 
 	static showChat(handle) {
 		const action = {
-			type: defaultAction
-		}
+			type: defaultAction.setMainView,
+			initialData: {
+				handle
+			}
+		};
+		dispatcher.dispatch(action);
 	}
 	
 	static proccessProfile(user, token) {

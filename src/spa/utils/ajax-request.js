@@ -24,19 +24,18 @@ class AjaxRequest {
 	}
 
 	_requestPost(url, requestData, success, err) {
-		global.setTimeout(() => {
-			$.ajax({
-				url,
-				method: 'POST',
-				beforeSend: this._setHeaders,
-				dataType: 'json',
-				contentType: 'application/json',
-				jsonp: false,
-				data: JSON.stringify(requestData),
-				success,
-				err
-			});
-		}, 500);
+		$.ajax({
+			url,
+			method: 'POST',
+			beforeSend: this._setHeaders,
+			dataType: 'json',
+			contentType: 'application/json',
+			jsonp: false,
+			data: JSON.stringify(requestData),
+			success,
+			err
+		});
+
 	}
 
 	_setHeaders(request) {}
