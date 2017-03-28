@@ -1,8 +1,8 @@
 import urlJoin from 'url-join';
 
-const apiUrl = global._apiUrl_;
+const apiUrl = global.__apiUrl__;
 
-class ApiUrl {
+class ApiUrls {
 	static user() {
 		return urlJoin(apiUrl, 'user');
 	}
@@ -20,4 +20,4 @@ class ApiUrl {
 	}
 }
 
-export {ApiUrl}
+export {ApiUrls}
