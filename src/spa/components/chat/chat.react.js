@@ -6,7 +6,7 @@ import {ApiUrls} from '../../utils/api-urls';
 import {ChatActions} from '../../flux/chat/chat-actions';
 import {DefaultActions} from '../../flux/default/default-actions';
 import classnames from 'classnames';
-// import './chat.scss';
+import './chat.scss';
 
 
 class Chat extends React.Component {

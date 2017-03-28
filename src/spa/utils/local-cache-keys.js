@@ -9,7 +9,7 @@ class LocalCacheKeys {
 	}
 
 	static facts() {
-		return 'fact|v0';
+		return 'facts|v0';
 	}
 }
 

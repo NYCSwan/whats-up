@@ -5,7 +5,7 @@ import {requestStates} from '../../enums/request-states';
 import {SecureAjaxRequest} from '../../utils/ajax-request';
 import {ApiUrls} from '../../utils/api-urls';
 import {ChatActions} from '../../flux/chat/chat-actions';
-// import './add-contact.scss';
+import './add-contact.scss';
 
 class AddContact extends React.Component{
 	constructor(props) {
