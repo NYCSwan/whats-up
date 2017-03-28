@@ -14,7 +14,6 @@ class BaseStore extends EventEmitter {
 
 	setup(modifier, handleAction) {
 		Object.seal(this._state); 						//seal makes obj non-extensible, no new props And sets configurable attr: false, which in turn makes writable: true so the value and writable attr can be changed.
-
 		for(let key of Object.keys(this._state)) {
 			Object.defineProperty(this, key, { 
 				get(){  								//dynamically adding getters to each object.
@@ -56,4 +55,4 @@ class BaseStore extends EventEmitter {
 	}
 }
 
-export {BaseStore};
+export {BaseStore}

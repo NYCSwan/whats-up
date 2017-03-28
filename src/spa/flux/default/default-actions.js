@@ -1,4 +1,4 @@
-import {defaultActionTypes as defaultActionsTypes} from './default-action-types';
+import {defaultActionTypes} from './default-action-types';
 import {mainViews} from '../../enums/main-views';
 import {dispatcher} from '../dispatcher';
 import {modalKeys} from '../../enums/modal-keys';
@@ -7,7 +7,7 @@ class DefaultActions {
 
 	static showChats() {
 		const action = {
-			type: defaultActionsTypes.setMainView,
+			type: defaultActionTypes.setMainView,
 			data: {
 				view: mainViews.chats
 
@@ -15,10 +15,16 @@ class DefaultActions {
 		};
 		dispatcher.dispatch(action);
 	}
+
+	static showChat(handle) {
+		const action = {
+			type: defaultAction
+		}
+	}
 	
 	static proccessProfile(user, token) {
 		const action = {
-			type: defaultActionsTypes.proccessProfile,
+			type: defaultActionTypes.proccessProfile,
 			data: {
 				user,
 				token
@@ -29,7 +35,7 @@ class DefaultActions {
 
 	static openAddContactModal() {
 		const action = {
-			type: defaultActionsTypes.setModalKey,
+			type: defaultActionTypes.setModalKey,
 			data: {
 				modalKey: modalKeys.addContact
 			}
@@ -39,7 +45,7 @@ class DefaultActions {
 
 	static closeModal() {
 		const action = {
-			type: defaultActionsTypes.setModalKey,
+			type: defaultActionTypes.setModalKey,
 		};
 		dispatcher.dispatch(action);
 	}

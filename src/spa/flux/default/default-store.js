@@ -58,6 +58,9 @@ class StateModifier {
 
 	_getInitialMainView() {
 		const token = LocalCache.getString(LocalCacheKeys.authToken());
+		console.log('token:', token);
+
+		console.log(this._state.user);
 
 		if(token) {
 			console.log('token exists');
@@ -70,10 +73,10 @@ class StateModifier {
 	}
 
 	_checkUserSocketConnection() {
-		if (this.state.user && this.state.user.handle) {
-			console.log('user:', this.state.user);
+		if (this._state.user && this._state.user.handle) {
+			console.log('user:', this._state.user);
 			global.setTimeout(() => {
-				connectToUserSocket(this.state.user.handle);
+				connectToUserSocket(this._state.user.handle);
 			}, 0);
 		}
 	}

@@ -1,7 +1,7 @@
 class LocalCacheKeys {
 	
 	static authToken() {
-		return 'auth-token|v6';
+		return 'auth-token|v13';  //switched from v6 to v13 why? what does this mean?
 	}
 
 	static user() {
