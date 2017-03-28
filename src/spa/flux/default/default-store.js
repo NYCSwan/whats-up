@@ -3,6 +3,7 @@ import {mainViews} from '../../enums/main-views';
 import {LocalCache} from '../../utils/local-cache';
 import {LocalCacheKeys} from '../../utils/local-cache-keys';
 import {defaultActionTypes} from "./default-action-types";
+import {connectToUserSocket} from '../../utils/sockets';
 
 
 class DefaultStore extends BaseStore {
@@ -44,6 +45,7 @@ class StateModifier {
 	constructor(state) {
 		this._state = state; // why no super? cuz it's a helper method..
 		this.initializeState();
+		this._checkUserSocketConnection();
 		
 	}
 
@@ -67,10 +69,28 @@ class StateModifier {
 		}
 	}
 
+	_checkUserSocketConnection() {
+		if (this.state.user && this.state.user.handle) {
+			console.log('user:', this.state.user);
+			global.setTimeout(() => {
+				connectToUserSocket(this.state.user.handle);
+			}, 0);
+		}
+	}
+
+	processProfile(user, token) {
+		LocalCache.setString(LocalCacheKeys.authToken(), token);
+		LocalCache.setObject(LocalCacheKeys.user(), user);
+
+		this.state.user = user;
+
+		connectToUserSocket(this._state.user.handle);
+		this.setMainView(mainViews.chats);
+	}
+
 	setMainView(view, initialData) {
 		this._state.mainView = view;
 		this._state.mainViewInitialData = initialData;
-
 	}
 
 	setModalKey(key) {
@@ -80,6 +100,7 @@ class StateModifier {
 	closeModal() {
 		this._state.modalKey = null;
 	}
+
 }
 
 const defaultStore = new DefaultStore(); //why at bottom? 

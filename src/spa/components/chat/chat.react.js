@@ -17,6 +17,56 @@ class Chat extends React.Component {
 		this._handleNewMessage = this._handleNewMessage.bind(this);
 
 	}	
+	render() {
+        return (
+            <div className="chat">
+                <div className="header">
+                    <div className="back" onClick={this._goBack}>
+                        <span>&lt;</span>
+                    </div>
+                    <div className="contact-initial">
+                        <span>{this.props.handle.substring(0,1)}</span>
+                    </div>
+                    <div className="contact-name">
+                        <span>{this.props.handle}</span>
+                    </div>
+                </div>
+                <div className="messages">
+                    {this.state.messages.map((message, index) => {
+                        const mineOrYours = chatStore.iAmSender(message.sender) ? 'mine' : 'yours';
+                        const messageClasses = classnames('message', mineOrYours);
+                        let checkmarks = '';
+
+                        if (chatStore.iAmSender(message.sender)) {
+                            if (message.receivedByServer) {
+                                checkmarks += '+';
+                            }
+
+                            if (message.acknowledged) {
+                                checkmarks += '+';
+                            }
+                        }
+                        
+                        return (
+                            <div key={index} className="message-container">
+                                <div className={messageClasses}>
+                                    <span>{message.content}</span><span>{checkmarks}</span>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+                <div className="message-input-container">
+                    <input
+                        type="text"
+                        placeholder="Type a message"
+                        value={this.state.newMessage}
+                        onChange={this._handleNewMessage}
+                        onKeyPress={this._handleKeyPress}/>
+                </div>
+            </div>
+        );
+    }
 
 	_getState(props) {
 		return {
@@ -32,5 +82,32 @@ class Chat extends React.Component {
 		this.setState({
 			newMessage: event.target.value
 		});
+	}
+
+	_handleKeyPress(event) {
+		if (event.key === 'Enter') {
+			const request = new SecureAjaxRequest();
+
+			coonst fact = {
+				type: 'message-sent',
+				data: {
+					sender: defaultStore.user.handle,
+					receiver,
+					content: this.state.newMessage,
+					messageId: Date.now()
+				}
+			};
+			ChatActions.processFact(fact);
+
+			global.setTimeout() => {
+				request.post({
+					url: ApiUrls.message(),
+					data: fact,
+					success: (res) => {
+						
+					}
+				})
+			}
+		}
 	}
 }
