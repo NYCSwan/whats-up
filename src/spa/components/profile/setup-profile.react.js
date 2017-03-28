@@ -76,9 +76,9 @@ class SetupProfile extends React.Component {
                 this.setState({
                     requestState: requestStates.success
                 });
-
+                console.log(res.token);
                 global.setTimeout(() => {
-                    DefaultActions.processProfile(user, res.token);
+                    DefaultActions.processProfile(user, res.token)
                 }, 750);
             },
 

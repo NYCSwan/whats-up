@@ -26,9 +26,9 @@ class DefaultActions {
 		dispatcher.dispatch(action);
 	}
 	
-	static proccessProfile(user, token) {
+	static processProfile(user, token) {
 		const action = {
-			type: defaultActionTypes.proccessProfile,
+			type: defaultActionTypes.processProfile,
 			data: {
 				user,
 				token

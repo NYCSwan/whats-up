@@ -19,8 +19,14 @@ class DefaultStore extends BaseStore {
 class ActionHandler {
 	static handleAction(action, modifier, emitChange) {
 		switch (action.type) {
+
 			case defaultActionTypes.setMainView:
 				modifier.setMainView(action.data.view, action.data.initialData);
+				emitChange();
+				break;
+
+			case defaultActionTypes.processProfile:
+				modifier.processProfile(action.data.user, action.data.token);
 				emitChange();
 				break;
 
