@@ -10,6 +10,14 @@ class ApiUrl {
 	static contact() {
 		return urlJoin(apiUrl, 'contact');
 	}
+
+	static message() {
+		return urlJoin(apiUrl, 'message');
+	}
+
+	static acknowledge() {
+		return urlJoin(apiUrl, 'acknowledge');
+	}
 }
 
 export {ApiUrl}

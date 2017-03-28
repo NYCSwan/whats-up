@@ -75,9 +75,6 @@ class SetupProfile extends React.Component {
             url: ApiUrls.user(),
             data: user,
             success: (res) => {
-                LocalCache.setString(LocalCacheKeys.authToken(), res.token)
-                LocalCache.setObject(LocalCacheKeys.user(), user)
-
                 this.setState({
                     requestState: requestStates.sucess
                 });

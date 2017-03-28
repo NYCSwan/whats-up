@@ -48,14 +48,16 @@ class AddContact extends React.Component{
 		const contact = {
 			handle: this.state.handle
 		};
-
+	}
+	
 	_submit() {
 		this.setState({
 			requestState: requestStates.fetching
-		})
+		});
+
 		const request = new SecureAjaxRequest();
 		const contact = {
-			handle: this.state.handle
+			handle: this.state.handle,
 		};
 
 		request.post({
@@ -79,8 +81,7 @@ class AddContact extends React.Component{
                     requestState: requestStates.hasError
                 });
 			}
-		})
-	}
+		});
 	}
 }
 

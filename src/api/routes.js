@@ -29,7 +29,7 @@ function setup(app) {
 			else {
 				res.json({ incResult: result });
 			}
-		})
+		});
 	});
 
 	app.post('/user', (req, res, next) => {
@@ -89,14 +89,94 @@ function setup(app) {
 		});
 	});
 
-	app.get('/user/verify', (req, res, next) => {
-		const bearerToken = req.header('Authorization');
-		const token = bearerToken.substring('Bearer '.length);
-
-		const decoded = jwt.verify(token, handleSecret);
-
-		res.send(decoded.handle);
+	app.get('/user/verify', verifyAuthorizationToken, (req, res, next) => {
+		res.send(req.user.handle);
 	});
+
+	app.post('/contact', verifyAuthorizationToken, (req, res, next) => {
+		console.log('POST /Contact', req.body);
+
+		const sender = req.user.handle;
+		const receiver = req.body.handle;
+
+		redisClient.lpush(redisKeys.contactsByUser(sender), receiver, (err, result) => {
+			if (err) {
+				next(err);
+			} else {
+				const fact = {
+					type: 'added-as-contact',
+					data: {
+						sender, 
+						receiver
+					}
+				};
+				sockets.emitUserFact(receiver, fact);
+
+				res.json(fact);
+			}
+		});
+	});
+
+	app.get('/contact', verifyAuthorizationToken, (req, res, next) => {
+		console.log('GET /contact', req.body);
+
+		const sender = req.user.handle;
+
+		redisClient.lpush(redisKeys.contactsByUser(sender), 0, -1, (err, result) => {
+			if (err) {
+				next(err);
+			} else {
+				res.json(result);
+			}
+		});
+	});
+
+	app.post('/message', verifyAuthorizationToken, (req, res, next) => {
+		console.log('POST /message', req.body);
+
+		const fact = req.body;
+		const { receiver } = fact.data;
+
+		sockets.emitUserFact(receiver, fact);
+		res.json(fact);
+	});
+
+	app.post('acknowledge', verifyAuthorizationToken, (req, res, next) => {
+		console.log('POST /acknowledge', req.body);
+
+		const sender = res.user.handle;
+		const { receiver, messageId } = req.body;
+		const fact = {
+			type: 'ack-sent',
+			data: {
+				sender,
+				receiver,
+				messageId
+			}
+		};
+		sockets.emitUserFact(receiver, fact);
+
+		res.json(fact);
+	});
+}
+
+function verifyAuthorizationToken(req, res, next) {
+	const bearerToken = req.header('Authorization');
+	const token = jwt.extractToken(bearerToken);
+
+	let decoded;
+
+	try {
+		decoded = jwt.verify(token);
+	}
+	catch(err) {
+		res.status(401).send('invalid-auth-token');
+		return;
+	}
+
+	req.user = req.user || {};
+	req.user.handle = decoded.handle;
+	next();
 }
 
 export {setup as setupRoutes}

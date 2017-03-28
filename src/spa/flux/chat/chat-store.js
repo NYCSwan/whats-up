@@ -15,20 +15,28 @@ class ChatStore extends BaseStore {
 		this.setup(modifier, ActionHandler.handleAction);
 
 	}
+
+	getMessages(handle) {
+		return this.state.messageMap.get(handle);
+	}
+
+	iAmSender(handle) {
+		return this._modifier._iAmSender(handle);  //WTF?
+	}
 }
 
 class ActionHandler {
+
 	static handleAction(action, modiier, emitChange) {
 		switch (action.type) {
 
 			case chatActionTypes.processFact:
-				return (
-					modifier.processFact(action.data.fact);
-					modifier.postProcessFact(action.data.fact);
-					modifier.saveFact(action.data.fact);
-					emitChange();
-					break;
-					
+				modifier.processFact(action.data.fact);
+				modifier.postProcessFact(action.data.fact);
+				modifier.saveFact(action.data.fact);
+				emitChange();
+				break;
+				
 			default:
 				break;
 		}
@@ -49,9 +57,9 @@ class StateModifier {
 	}
 
 	saveFact(fact) {
-		const facts = this.getLocalFacts();
+		const facts = this._getLocalFacts();
 		facts.push(fact);
-		LocalCache.setObject(LocalCacheKeys.facts() || []);
+		LocalCache.setObject(LocalCacheKeys.facts(), facts);
 	}
 
 	_getLocalFacts() {
@@ -92,7 +100,6 @@ class StateModifier {
                 message.receivedByServer = false;
                 message.acknowledged = false;
                 messages.push(message);
-
                 break;
 
             case 'message-received-by-server':
@@ -118,6 +125,58 @@ class StateModifier {
                 }
 
                 break;
+            default:
+             	throw new Error(`unexpected fact type: ${fact.type}`);
+            	break;
+		}
+	}
+
+	processFactAfterLoad() {
+		switch (fact.type) {
+			case 'message-sent':
+				if(!this._iAmSender(fact.data.sender)) {
+					this_submitAck(fact.data);
+				}
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	_iAmSender(handle) {
+		return handle === defaultStore.user.handle; // why need _iAm And iAm fns?
+	}
+
+	_submitAck(fact) {
+		const request = new SecureAjaxRequest();
+
+		const data = {
+			receiver: message.sender,
+			messageId: message.messageId
+		};
+
+		global.setTimeout(() => {
+			request.post({
+				url: ApiUrls.acknowledge(),
+				data,
+				success: (res) => {
+					console.log(res);
+				},
+				error: (err) => {
+					console.log(err);
+				}
+			});
+		}, 3000);
+	}
+
+	_getHandle(fact) {
+		if(this._iAmSender(fact.data.sender)) {
+			console.log(`I'm the sender!`);
+			return fact.data.sender;
+		} else {
+			console.log(`I just received a message!`);
+			return fact.data.sender;
 		}
 	}
 }
