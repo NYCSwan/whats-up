@@ -1,5 +1,5 @@
 import {EventEmitter} from 'events';
-import {dispatcher} from './dispatcher'; //why lowercase?
+import {dispatcher} from './dispatcher'; 				//why lowercase?
 
 class BaseStore extends EventEmitter {
 
@@ -7,17 +7,18 @@ class BaseStore extends EventEmitter {
 		super();
 
 		this._changeEvent = changeEvent;
-		this.state = {};
+		this._state = {};
 		
 	}
+//  shared methods for all stores
 
 	setup(modifier, handleAction) {
-		Object.seal(this._state);
+		Object.seal(this._state); 						//seal makes obj non-extensible, no new props And sets configurable attr: false, which in turn makes writable: true so the value and writable attr can be changed.
 
 		for(let key of Object.keys(this._state)) {
 			Object.defineProperty(this, key, { 
-				get(){
-				return this._state(key);
+				get(){  								//dynamically adding getters to each object.
+				return this._state[key];
 				}
 			});
 		}
@@ -26,8 +27,7 @@ class BaseStore extends EventEmitter {
 
 		this._dispatchToken = dispatcher.register(this._handleActionHelper.bind(this));
 	}
-
-	get state() {
+	get state() { 										//setting a getter method for all states
 		return this._state;
 	}
 

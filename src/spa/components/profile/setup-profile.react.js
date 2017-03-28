@@ -1,12 +1,13 @@
 import React from 'react';
-import ProfileEditor from './profile-editor.react'
-import SubmitButton from './submit-button.react'
+import ProfileEditor from './profile-editor.react';
+import RequestSubmitButton from '../common/request-submit-button.react';
 
 import $ from 'jquery';
 
 import setupProfile from './setup-profile.scss';
 
-import {requestStates} from '../../core/request-states';
+import RequestMessage from '../common/request-message.react'
+import {requestStates} from '../../../core/request-states';
 import {StandardAjaxRequest} from '../../utils/ajax-request';
 import {ApiUrls} from '../../utils/api-urls';
 import {LocalCache} from '../../utils/local-cache';
@@ -82,7 +83,7 @@ class SetupProfile extends React.Component {
                 });
 
                 global.setTimeout(() => {
-                    DefaultActions.goToChatsView();
+                    DefaultActions.processProfile(user, res.token);
                 }, 750);
             },
 
@@ -92,7 +93,7 @@ class SetupProfile extends React.Component {
                     requestState: requestStates.hasError
                 });
             }
-        })
+        });
     }
 }
 

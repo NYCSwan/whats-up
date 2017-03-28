@@ -2,7 +2,7 @@ import React from 'react';
 import SubmitButton from './submit-button.react';
 import {requestStates} from '../../enums/request-states';
 
-function RequestSubmitButton ({requestStates}) {
+function RequestSubmitButton ({requestState, onSubmit}) {
 	let isSubmitButtonEnabled;
 
 	switch (requestState) {

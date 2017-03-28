@@ -1,7 +1,7 @@
 import React from 'react';
 import {requestStates} from '../../enums/request-states';
 
-function RequestMessage ({requestStates}) {
+function RequestMessage ({requestState}) {
 	let message;
 
 	switch (requestState) {

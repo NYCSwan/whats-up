@@ -10,12 +10,12 @@
   "scripts": {
     "test": "mocha ./test-root.js ./src/**/_tests_/*.tests.js --compilers js:babel-core/register",
     "build-api": "rm -Rf dist/api && rm -Rf dist/core && babel src/api -d dist/api && babel src/core -d dist/core",
-    "babel-node": "babel-node --plugins transform-es2015-modules-commonjs",
+    "babel-node": "babel-node",
     "nodemon": "nodemon --exec npm run babel-node",
     "postinstall": "npm run build-api",
-    "build-spa": "rm -Rf dist/spa && gulp build-spa",
+    "build-spa": "rm -R dist/spa && gulp build-spa",
     "spa-server": "gulp spa-server",
-    "eslint": "npm run eslint"
+    "eslint": "eslint --fix"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "node-sass": "^3.13.1",
     "redis": "^2.6.5",
     "sass-loader": "^4.1.1",
+    "socket.io": "^1.7.3",
     "style-loader": "^0.13.2",
     "url-join": "^1.1.0",
     "validator": "^6.1.0"

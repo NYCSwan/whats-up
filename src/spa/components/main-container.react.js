@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SetupProfile from './setup-profile.react';
+import SetupProfile from './profile/setup-profile.react';
 import Chats from './chat/chats.react';
 import Modal from './modal.react';
 import AddContact from './chat/add-contact.react';
@@ -14,13 +14,14 @@ import './main.scss';
 class MainContainer extends React.Component {
 	constructor(props) {
 		super();
-		this.state = {};
+		this.state = this._getState();
 		this._handleStoreChange = this._handleStoreChange.bind(this);
 	}
 
 	_getState() {
 		return {
 			mainView: defaultStore.mainView,
+			mainViewInitialData: defaultStore.mainViewInitialData,
 			modalKey: defaultStore.modalKey
 		};
 	}
@@ -41,6 +42,9 @@ class MainContainer extends React.Component {
 
 			case mainViews.chats:
 				return <Chats />;
+
+			case mainViews.chat:
+                return <Chat handle={this.state.mainViewInitialData.handle}/>;
 
 			default: 
 				throw new Error(`Unexpected main view ${this.state.mainView}`)
