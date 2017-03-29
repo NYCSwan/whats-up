@@ -54,7 +54,7 @@ class SecureAjaxRequest extends StandardAjaxRequest {
         super._setHeaders(request);
         const authToken = LocalCache.getString(LocalCacheKeys.authToken());
         if (authToken) {
-            request.setRequestHeader('Authorization', authToken);
+            request.setRequestHeader('Authorization: ', authToken);
         }
         else {
             throw new Error('auth token missing');

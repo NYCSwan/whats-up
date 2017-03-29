@@ -19,8 +19,11 @@ class DefaultActions {
 	static showChat(handle) {
 		const action = {
 			type: defaultAction.setMainView,
-			initialData: {
-				handle
+			data: {
+				view: mainViews.chat,
+				initialData: {
+					handle 
+				}
 			}
 		};
 		dispatcher.dispatch(action);
@@ -49,7 +52,7 @@ class DefaultActions {
 
 	static closeModal() {
 		const action = {
-			type: defaultActionTypes.setModalKey,
+			type: defaultActionTypes.closeModal
 		};
 		dispatcher.dispatch(action);
 	}

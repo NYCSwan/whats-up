@@ -15,8 +15,11 @@ class Chat extends React.Component {
 		this.state = this._getState(props);
 		this._handleStoreChange = this._handleStoreChange.bind(this);
 		this._handleNewMessage = this._handleNewMessage.bind(this);
+        this._handleKeyPress = this._handleKeyPress.bind(this);
+        this._goBack = this._goBack.bind(this);
 
 	}	
+
 	render() {
         return (
             <div className="chat">
@@ -62,7 +65,8 @@ class Chat extends React.Component {
                         placeholder="Type a message"
                         value={this.state.newMessage}
                         onChange={this._handleNewMessage}
-                        onKeyPress={this._handleKeyPress}/>
+                        onKeyPress={this._handleKeyPress}
+                    />
                 </div>
             </div>
         );
@@ -70,8 +74,9 @@ class Chat extends React.Component {
 
 	_getState(props) {
 		return {
-			messages: chatStore.getMessages(props.handle);
-		}
+			messages: chatStore.getMessages(props.handle),
+            newMessage: ''
+		};
 	}
 
 	_handleStoreChange() {
@@ -88,7 +93,7 @@ class Chat extends React.Component {
 		if (event.key === 'Enter') {
 			const request = new SecureAjaxRequest();
 
-			coonst fact = {
+			const fact = {
 				type: 'message-sent',
 				data: {
 					sender: defaultStore.user.handle,
@@ -99,15 +104,41 @@ class Chat extends React.Component {
 			};
 			ChatActions.processFact(fact);
 
-			global.setTimeout() => {
+			global.setTimeout(() => {
 				request.post({
 					url: ApiUrls.message(),
 					data: fact,
 					success: (res) => {
-						
-					}
+						console.log(res);
+                        const receivedByServerFact = {
+                            type: 'message-received-by-server',
+                            data: {
+                                receiver,
+                                messageId: fact.data.messageId
+                            }
+                        };
+                        ChatActions.processFact(receivedByServerFact);
+					},
+                    error: (err) => {
+                        console.error(err);
+                    }
 				})
-			}
+			}, 3000);
 		}
 	}
+
+    _goBack() {
+        DefaultActions.showChats();
+    }
+
+    componentDidMount() {
+        chatStore.addChangeListener(this._handleStoreChange);
+    }
+
+    componentWillUnmount() {
+        chatStore.removeChangeListener(this._handleStoreChange);
+    }
+
 }
+
+export default Chat;

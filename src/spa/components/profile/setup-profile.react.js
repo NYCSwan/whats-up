@@ -62,7 +62,6 @@ class SetupProfile extends React.Component {
         });
 
         const request = new StandardAjaxRequest();
-
         const user = {
             handle: this.state.handle,
             name: this.state.name
@@ -79,7 +78,7 @@ class SetupProfile extends React.Component {
                 console.log('user', user);
                 global.setTimeout(() => {
                     DefaultActions.processProfile(user, res.token)
-                });
+                }, 0);
             },
 
             error: (err) => {

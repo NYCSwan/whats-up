@@ -10,7 +10,9 @@ let userSocket;
 
 function connectToUserSocket(handle) {
 	const namespace = SocketUtils.getString(LocalCacheKeys.authToken());
-
+	const namespaceUrl = urlJoin(global.__apiUrl__, namespace);
+	const authToken = LocalCache.getString(LocalCacheKeys.authToken());
+	
 	userSocket = io.connect(namespaceUrl, {
 		query: `token=${authToken}`
 	});
