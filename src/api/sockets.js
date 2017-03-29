@@ -40,7 +40,7 @@ function verifyAuthorizationToken(socket, next) {
 		const token = jwt.extractToken(bearerToken);
 
 		try {
-			jwt.verify(bearerToken);
+			jwt.verify(token);
 		} 
 		catch (e) {
 			err = new Error('invalid authToken for user socket');
