@@ -83,7 +83,7 @@ class StateModifier {
 		switch (fact.type) {
 
 			case 'added-as-contact':
-				handle: this._getHandle(fact);
+				handle = this._getHandle(fact);
 
 				this._state.chats.push({
 					handle
@@ -105,6 +105,7 @@ class StateModifier {
             case 'message-received-by-server':
 
                 handle = fact.data.receiver;
+                
                 messages = this._state.messageMap.get(handle);
                 message = messages.find((msg) => msg.messageId === fact.data.messageId);
 

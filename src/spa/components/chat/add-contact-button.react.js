@@ -1,6 +1,6 @@
 import React from 'react';
 import {DefaultActions} from '../../flux/default/default-actions';
-import './add-contact.scss';
+import './add-contact-button.scss';
 
 function AddContactButton () {
 

@@ -3,7 +3,7 @@ import keyMirror from 'key-mirror';
 const defaultActionTypes = keyMirror({
 	setMainView: null,
 	processProfile: null,
-	setModalView: null,
+	setModalKey: null,
 	closeModal: null
 });
 

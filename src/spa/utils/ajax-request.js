@@ -1,6 +1,6 @@
 import $ from 'jquery';
-import {localCache} from './local-cache';
-import {localCacheKeys} from './local-cache-keys';
+import {LocalCache} from './local-cache';
+import {LocalCacheKeys} from './local-cache-keys';
 
 class AjaxRequest {
 
