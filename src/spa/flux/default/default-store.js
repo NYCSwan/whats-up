@@ -58,7 +58,7 @@ class StateModifier {
 	initializeState() {
 		this._state.mainView = this._getInitialMainView();
 		this._state.mainViewInitialData = null;
-		this._state.modalkey = null;
+		this._state.modalKey = null;
 		this._state.user = LocalCache.getObject(LocalCacheKeys.user());
 	}
 
@@ -91,7 +91,7 @@ class StateModifier {
 		LocalCache.setString(LocalCacheKeys.authToken(), token);
 		LocalCache.setObject(LocalCacheKeys.user(), user);
 
-		this.state.user = user;
+		this._state.user = user;
 
 		connectToUserSocket(this._state.user.handle);
 		this.setMainView(mainViews.chats);
@@ -103,6 +103,7 @@ class StateModifier {
 	}
 
 	setModalKey(key) {
+		console.log('state: ', this._state);
 		this._state.modalKey = key;
 	}
 
