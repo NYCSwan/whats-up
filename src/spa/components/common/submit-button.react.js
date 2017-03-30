@@ -3,9 +3,9 @@ import './submit-button.scss';
 
 function SubmitButton ({text, enabled, onSubmit}) {
 	if (enabled) {
-		return <div className="submit" onClick={onSubmit}>{text}</div>
+		return <div className="submit-button" onClick={onSubmit}>{text}</div>
 	} else {
-		return <div className="submit">{text}</div>
+		return <div className="submit-button">{text}</div>
 	}
 }
 

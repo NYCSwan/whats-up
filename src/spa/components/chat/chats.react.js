@@ -15,6 +15,12 @@ class Chats extends React.Component {
 		this._handleStoreChange = this._handleStoreChange.bind(this);
 	}
 
+	_getState() {
+		return {
+			chats: chatStore.chats
+		};
+	}
+
 	render() {
 		return (
 			<div className="chats">
@@ -25,15 +31,14 @@ class Chats extends React.Component {
 		)
 	}
 
-	_getState() {
-		return {
-			chats: chatStore.chats
-		};
-	}
-
 	_renderContents() {
 		if(this.state.chats.length > 0) {
-			return <ChatsList />
+			return (
+				<div className="chats-state">
+	                <ChatsList chats={this.state.chats}/>
+	                <AddContactButton />
+	            </div>
+			)
 		} else {
 			return (
                 <div className="zero-state">

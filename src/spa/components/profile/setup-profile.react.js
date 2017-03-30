@@ -1,18 +1,14 @@
 import React from 'react';
+
 import ProfileEditor from './profile-editor.react';
 import RequestSubmitButton from '../common/request-submit-button.react';
-
-import $ from 'jquery';
-
-import setupProfile from './setup-profile.scss';
-
 import RequestMessage from '../common/request-message.react'
 import {requestStates} from '../../../core/request-states';
 import {StandardAjaxRequest} from '../../utils/ajax-request';
 import {ApiUrls} from '../../utils/api-urls';
-import {LocalCache} from '../../utils/local-cache';
-import {LocalCacheKeys} from '../../utils/local-cache-keys';
 import {DefaultActions} from '../../flux/default/default-actions';
+
+import './setup-profile.scss';
 
 class SetupProfile extends React.Component {
 	constructor(props) {
@@ -67,21 +63,22 @@ class SetupProfile extends React.Component {
 
         const request = new StandardAjaxRequest();
         const user = {
-            hande: this.state.handle,
+            handle: this.state.handle,
             name: this.state.name
         };
+        // console.log('ApiUrls: ', ApiUrls.user());
 
         request.post({
             url: ApiUrls.user(),
             data: user,
             success: (res) => {
                 this.setState({
-                    requestState: requestStates.sucess
+                    requestState: requestStates.success
                 });
-
+                console.log('user', user);
                 global.setTimeout(() => {
-                    DefaultActions.processProfile(user, res.token);
-                }, 750);
+                    DefaultActions.processProfile(user, res.token)
+                }, 0);
             },
 
             error: (err) => {

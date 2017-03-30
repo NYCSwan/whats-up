@@ -1,4 +1,4 @@
-import createSocketIoServer from 'socket.io';
+import createSocketIoServer from 'socket.io'; //helps with websocket support for noncompliant browsers
 import {socketEvents} from '../core/socket-events';
 import {redisClient, redisKeys} from './redis-client';
 import {SocketUtils} from '../core/socket-utils';
@@ -6,25 +6,25 @@ import {jwt} from './jwt-wrapper';
 
 class Sockets {
 	constructor(httpServer) {
-		this._io = createSocketIoServer(httpServer);
+		this._io = createSocketIoServer(httpServer);  //fn from socket lib
 	}
 
-	setupUserNamespace(handle) {
-		const namespace = SocketUtils.getUseNamespace(handle);
-		const userSocket = this._io.of(namspace);
+	setupUserNamespace(handle) {  
+		const namespace = SocketUtils.getUserNamespace(handle);
+		const userSocket = this._io.of(namespace);
 
 		userSocket.use(verifyAuthorizationToken);
 
 		console.log(`server connected  on ${namespace}`);
 
 		userSocket.on('connection', function(socket){
-			console.log('socket:', socket);
-			console.log(`socket connected on ${socket.nsp.name}`);
+			// console.log('socket:', socket);
+			console.log(`client connected on ${socket.nsp.name}`);
 		});
 	}
 
 	emitUserFact(handle, fact) {
-		const namespace = SocketUtils.connectToUserSocket(handle);
+		const namespace = SocketUtils.getUserNamespace(handle);
 		console.log(`server emitting fact on ${namespace}`, fact);
 
 		const userSocket = this._io.of(namespace);
@@ -32,15 +32,14 @@ class Sockets {
 	}
 }
 
-function verifyAuthorizationToken(socket, next) {
-	let err;
+function verifyAuthorizationToken(socket, next) {  
 	const bearerToken = socket.handshake.query.token;
 
 	if (bearerToken) {
 		const token = jwt.extractToken(bearerToken);
 
 		try {
-			jwt.verify(bearerToken);
+			jwt.verify(token);
 		} 
 		catch (e) {
 			err = new Error('invalid authToken for user socket');
@@ -68,7 +67,7 @@ function setupSockets(httpServer) {
 			console.log('could not read users to setup sockets');
 		} else {
 			const users = result.map(JSON.parse);
-			for(const user of users) {
+			for(const user of users) { 							//set up user namespace to organize comm of messages; every user has namespace, to comm need to connect to namespaced socket to leave message.
 				sockets.setupUserNamespace(user.handle);
 			}
 		}

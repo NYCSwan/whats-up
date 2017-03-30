@@ -5,7 +5,8 @@ import {requestStates} from '../../enums/request-states';
 import {SecureAjaxRequest} from '../../utils/ajax-request';
 import {ApiUrls} from '../../utils/api-urls';
 import {ChatActions} from '../../flux/chat/chat-actions';
-// import './add-contact.scss';
+import {DefaultActions} from '../../flux/default/default-actions';
+import './add-contact.scss';
 
 class AddContact extends React.Component{
 	constructor(props) {
@@ -43,11 +44,6 @@ class AddContact extends React.Component{
 		this.setState({
 			handle: event.target.value
 		});
-
-		const request = new SecureAjaxRequest();
-		const contact = {
-			handle: this.state.handle
-		};
 	}
 	
 	_submit() {
@@ -57,22 +53,24 @@ class AddContact extends React.Component{
 
 		const request = new SecureAjaxRequest();
 		const contact = {
-			handle: this.state.handle,
+			handle: this.state.handle
 		};
 
 		request.post({
 			url: ApiUrls.contact(),
 			data: contact,
 			success: (res) => {
-				LocalCache.setString(LocalCacheKeys.authToken(), res.token)
-				LocalCache.setObject(LocalCacheKeys.contact(), contact)
-
+		
 				this.setState({
 					requestState: requestStates.success
 				});
 
-                DefaultActions.closeModal();
-                ChatActions.processFact(res);
+                console.log('contacts so far', res);
+                
+                global.setTimeout(() => {
+                    ChatActions.processFact(res);
+                    DefaultActions.closeModal();
+                }, 0);
             },
             
             error: (err) => {

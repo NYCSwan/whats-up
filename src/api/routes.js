@@ -1,8 +1,7 @@
 import {redisClient, redisKeys} from './redis-client';
 import {UserValidator} from '../core/user-validator';
-import jwt from 'jsonwebtoken';
-
-const handleSecret = 'some-secret-shhh'; //need to change before 
+import {jwt} from './jwt-wrapper';
+import {sockets} from './sockets';
 
 function setup(app) {
 	app.get('/', (req, res) => {
@@ -33,7 +32,7 @@ function setup(app) {
 	});
 
 	app.post('/user', (req, res, next) => {
-		console.log('user', req.body);
+		console.log('POST /user', req.body);
 
 		const {handle, name} = req.body;
 
@@ -49,7 +48,6 @@ function setup(app) {
 			else {
 				const validator = new UserValidator(user);
 				const existingUsers = result.map(JSON.parse);
-
 				const errors = validator.validate(existingUsers);
 
 				if (errors.length > 0) {
@@ -61,11 +59,12 @@ function setup(app) {
 							next(err);
 						}
 						else {
+							sockets.setupUserNamespace(user.handle);
 
-							const token = jwt.sign({ handle }, handleSecret);
+							const token = jwt.sign({ handle });
 
 							res.json({
-								token: `Bearer ${token}`
+								token: jwt.bearerToken(token)
 							});
 
 							//res.send(`User saved to redis. Number of users: ${result}.`);
@@ -160,7 +159,7 @@ function setup(app) {
 	});
 }
 
-function verifyAuthorizationToken(req, res, next) {
+function verifyAuthorizationToken(req, res, next) { //middleware fn, grabs from header to validate in route
 	const bearerToken = req.header('Authorization');
 	const token = jwt.extractToken(bearerToken);
 

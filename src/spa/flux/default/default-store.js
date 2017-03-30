@@ -19,8 +19,14 @@ class DefaultStore extends BaseStore {
 class ActionHandler {
 	static handleAction(action, modifier, emitChange) {
 		switch (action.type) {
+
 			case defaultActionTypes.setMainView:
 				modifier.setMainView(action.data.view, action.data.initialData);
+				emitChange();
+				break;
+
+			case defaultActionTypes.processProfile:
+				modifier.processProfile(action.data.user, action.data.token);
 				emitChange();
 				break;
 
@@ -52,12 +58,15 @@ class StateModifier {
 	initializeState() {
 		this._state.mainView = this._getInitialMainView();
 		this._state.mainViewInitialData = null;
-		this._state.modalkey = null;
+		this._state.modalKey = null;
 		this._state.user = LocalCache.getObject(LocalCacheKeys.user());
 	}
 
 	_getInitialMainView() {
 		const token = LocalCache.getString(LocalCacheKeys.authToken());
+		console.log('token:', token);
+
+		console.log(this._state.user);
 
 		if(token) {
 			console.log('token exists');
@@ -70,10 +79,10 @@ class StateModifier {
 	}
 
 	_checkUserSocketConnection() {
-		if (this.state.user && this.state.user.handle) {
-			console.log('user:', this.state.user);
+		if (this._state.user && this._state.user.handle) {
+			console.log('user:', this._state.user);
 			global.setTimeout(() => {
-				connectToUserSocket(this.state.user.handle);
+				connectToUserSocket(this._state.user.handle);
 			}, 0);
 		}
 	}
@@ -82,7 +91,7 @@ class StateModifier {
 		LocalCache.setString(LocalCacheKeys.authToken(), token);
 		LocalCache.setObject(LocalCacheKeys.user(), user);
 
-		this.state.user = user;
+		this._state.user = user;
 
 		connectToUserSocket(this._state.user.handle);
 		this.setMainView(mainViews.chats);
@@ -94,6 +103,7 @@ class StateModifier {
 	}
 
 	setModalKey(key) {
+		console.log('state: ', this._state);
 		this._state.modalKey = key;
 	}
 

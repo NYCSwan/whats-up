@@ -4,6 +4,7 @@ import SetupProfile from './profile/setup-profile.react';
 import Chats from './chat/chats.react';
 import Modal from './modal.react';
 import AddContact from './chat/add-contact.react';
+import Chat from './chat/chat.react';
 
 import {defaultStore} from '../flux/default/default-store';
 import {mainViews} from '../enums/main-views';
@@ -44,7 +45,7 @@ class MainContainer extends React.Component {
 				return <Chats />;
 
 			case mainViews.chat:
-                return <Chat handle={this.state.mainViewInitialData.handle}/>;
+                return <Chat handle={this.state.mainViewInitialData.handle} />;
 
 			default: 
 				throw new Error(`Unexpected main view ${this.state.mainView}`)
@@ -52,15 +53,23 @@ class MainContainer extends React.Component {
 	}
 
 	_renderModal() {
-		switch (this.state.modalKey) {
-			case modalKeys.AddContact:
-				return <AddContact />;
-
-			default:
-				return null;
-		}
+		return (
+            <Modal isOpen={this.state.modalKey !== null}>
+                {this._renderModalChildren()}
+            </Modal>
+        )
 	}
 
+	_renderModalChildren() {
+		switch (this.state.modalKey) {
+            case modalKeys.addContact:
+                return <AddContact />;
+
+            default:
+                return null;
+        }
+	}
+	
 	componentDidMount() {
 		defaultStore.addChangeListener(this._handleStoreChange);
 	}

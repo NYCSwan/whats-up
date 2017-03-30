@@ -32,7 +32,7 @@ class ActionHandler {
 
 			case chatActionTypes.processFact:
 				modifier.processFact(action.data.fact);
-				modifier.postProcessFact(action.data.fact);
+				modifier.processFactAfterLoad(action.data.fact);
 				modifier.saveFact(action.data.fact);
 				emitChange();
 				break;
@@ -83,7 +83,7 @@ class StateModifier {
 		switch (fact.type) {
 
 			case 'added-as-contact':
-				handle: this._getHandle(fact);
+				handle = this._getHandle(fact);
 
 				this._state.chats.push({
 					handle
@@ -105,6 +105,7 @@ class StateModifier {
             case 'message-received-by-server':
 
                 handle = fact.data.receiver;
+
                 messages = this._state.messageMap.get(handle);
                 message = messages.find((msg) => msg.messageId === fact.data.messageId);
 
@@ -125,17 +126,17 @@ class StateModifier {
                 }
 
                 break;
+
             default:
              	throw new Error(`unexpected fact type: ${fact.type}`);
-            	break;
 		}
 	}
 
-	processFactAfterLoad() {
+	processFactAfterLoad(fact) {
 		switch (fact.type) {
 			case 'message-sent':
 				if(!this._iAmSender(fact.data.sender)) {
-					this_submitAck(fact.data);
+					this._submitAck(fact.data);
 				}
 				break;
 
@@ -148,7 +149,7 @@ class StateModifier {
 		return handle === defaultStore.user.handle; // why need _iAm And iAm fns?
 	}
 
-	_submitAck(fact) {
+	_submitAck(message) {
 		const request = new SecureAjaxRequest();
 
 		const data = {

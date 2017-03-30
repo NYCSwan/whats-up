@@ -24,7 +24,8 @@ function RequestSubmitButton ({requestState, onSubmit}) {
 		<SubmitButton
 			text={requestState === requestStates.fetching ? 'Submitting...' : 'Submit' }
             enabled={isSubmitButtonEnabled}
-            onSubmit={onSubmit}/>
+            onSubmit={onSubmit}
+        />
 	);
 }
 

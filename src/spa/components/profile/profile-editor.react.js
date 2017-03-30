@@ -1,5 +1,5 @@
 import React from 'react';
-import profileEditor from './profile-editor.scss';
+import './profile-editor.scss';
 
 function ProfileEditor ({handle, name, onHandleChange, onNameChange}) {
 

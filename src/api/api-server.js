@@ -1,6 +1,8 @@
 import express from 'express';
 import {setupRedis} from './redis-client';
 import {setupRoutes} from './routes';
+import {setupSockets} from './sockets';
+
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
@@ -15,6 +17,8 @@ const port = process.env.PORT || 4000;
 setupRedis();
 setupRoutes(app);
 
-app.listen(port, () => {
+const httpServer = app.listen(port, () => {
 	console.log(`Express app listening on port ${port}`);
 });
+
+setupSockets(httpServer);

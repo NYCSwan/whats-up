@@ -1,6 +1,6 @@
 import $ from 'jquery';
-import {localCache} from './local-cache';
-import {localCacheKeys} from './local-cache-keys';
+import {LocalCache} from './local-cache';
+import {LocalCacheKeys} from './local-cache-keys';
 
 class AjaxRequest {
 
@@ -24,19 +24,18 @@ class AjaxRequest {
 	}
 
 	_requestPost(url, requestData, success, err) {
-		global.setTimeout(() => {
-			$.ajax({
-				url,
-				method: 'POST',
-				beforeSend: this._setHeaders,
-				dataType: 'json',
-				contentType: 'application/json',
-				jsonp: false,
-				data: JSON.stringify(requestData),
-				success,
-				err
-			});
-		}, 500);
+		$.ajax({
+			url,
+			method: 'POST',
+			beforeSend: this._setHeaders,
+			dataType: 'json',
+			contentType: 'application/json',
+			jsonp: false,
+			data: JSON.stringify(requestData),
+			success,
+			err
+		});
+
 	}
 
 	_setHeaders(request) {}
@@ -55,7 +54,7 @@ class SecureAjaxRequest extends StandardAjaxRequest {
         super._setHeaders(request);
         const authToken = LocalCache.getString(LocalCacheKeys.authToken());
         if (authToken) {
-            request.setRequestHeader('Authorization', authToken);
+            request.setRequestHeader('Authorization: ', authToken);
         }
         else {
             throw new Error('auth token missing');
