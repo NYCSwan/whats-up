@@ -1,6 +1,6 @@
 'use strict';
 
-require('babel-core/register');
+// require('babel-core/register');
 
 const gulp = require('gulp');
 
@@ -17,7 +17,6 @@ gulp.task('build-spa', (callback) => {
 			'NODE_ENV': '"production"'
 		}
 	}));
-	buildConfig.plugins.push(new webpack.LoaderOptionsPlugin({ debug: true }));
 
 	webpack(buildConfig, (err, stats) => {
 		if (err) {

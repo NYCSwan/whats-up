@@ -9,12 +9,12 @@ import {LocalCacheKeys} from './local-cache-keys';
 let userSocket;
 
 function connectToUserSocket(handle) {
-	const namespace = SocketUtils.getString(LocalCacheKeys.authToken());
+	const namespace = SocketUtils.getUserNamespace(handle);
 	const namespaceUrl = urlJoin(global.__apiUrl__, namespace);
 	const authToken = LocalCache.getString(LocalCacheKeys.authToken());
 	
 	userSocket = io.connect(namespaceUrl, {
-		query: `token=${authToken}`
+		query: `token=${authToken}`  //actual connection. token from localstorage
 	});
 
 	console.log(`connected to namespace ${namespace}`);

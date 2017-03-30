@@ -65,8 +65,12 @@ class AddContact extends React.Component{
 					requestState: requestStates.success
 				});
 
-                DefaultActions.closeModal();
-                ChatActions.processFact(res);
+                console.log('contacts so far', res);
+                
+                global.setTimeout(() => {
+                    ChatActions.processFact(res);
+                    DefaultActions.closeModal();
+                }, 0);
             },
             
             error: (err) => {

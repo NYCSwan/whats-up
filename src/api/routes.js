@@ -159,7 +159,7 @@ function setup(app) {
 	});
 }
 
-function verifyAuthorizationToken(req, res, next) {
+function verifyAuthorizationToken(req, res, next) { //middleware fn, grabs from header to validate in route
 	const bearerToken = req.header('Authorization');
 	const token = jwt.extractToken(bearerToken);
 

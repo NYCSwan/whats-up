@@ -5,3 +5,6 @@ class SocketUtils {
 }
 
 export {SocketUtils}
+
+
+//runs in both server and client-- universal js ; part of bundle so doesn't run from same file 

@@ -7,7 +7,7 @@ class JwtWrapper {
 	}
 
 	sign(data) {
-		return _jwt.sign(data, this_secret)
+		return _jwt.sign(data, this._secret)
 	}
 
 	bearerToken(token) {
