@@ -9,7 +9,7 @@ import {connectToUserSocket} from '../../utils/sockets';
 class DefaultStore extends BaseStore {
 	constructor() {
 		super('default-store-change'); //where does default-store-change come from? from the baseStore changeEvent
-		const modifier = new StateModifier(this.state); // actual sets the state in the new store
+		const modifier = new StateModifier(this.state); // actually sets the state in the new store
 		this.setup(modifier, ActionHandler.handleAction); //basestore fn
 	}
 

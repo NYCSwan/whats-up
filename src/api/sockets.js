@@ -33,6 +33,7 @@ class Sockets {
 }
 
 function verifyAuthorizationToken(socket, next) {  
+	let err;
 	const bearerToken = socket.handshake.query.token;
 
 	if (bearerToken) {
